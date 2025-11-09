@@ -1,15 +1,14 @@
-import { Entity } from "../../core/entities/entity"
+import { Entity } from '../../core/entities/entity'
 
 interface StudentProps {
-    name: string
+  name: string
 }
 export class Student extends Entity<StudentProps> {
-    static create(props: StudentProps) {
-        const student = new Student({
-            ...props
-        })
+  static create(props: StudentProps) {
+    const student = new Student({
+      ...props,
+    })
 
-        return student
-    }
-
+    return student
+  }
 }
