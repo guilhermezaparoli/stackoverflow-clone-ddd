@@ -1,4 +1,5 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import type { PaginationParams } from "@/core/repositories/pagination-params";
 import type { QuestionsRepository } from "@/domain/forum/application/repositories/questions-repository";
 import type { Question } from "@/domain/forum/enterprise/entities/question";
 
@@ -40,6 +41,12 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
         }
 
         return question
+    }
+
+    async findManyRecent({ page = 1, pageSize = 20 }: PaginationParams): Promise<Question[]> {
+        const questions = this.items.sort((a,b) => b.createdAt.getTime() - a.createdAt.getTime()).slice((page - 1) * pageSize, page * pageSize)
+
+        return questions
     }
 
 }
