@@ -5,6 +5,8 @@ interface DeleteCommentQuestionUseCaseRequest {
   commentId: string
 }
 
+interface DeleteCommentQuestionUseCaseResponse {}
+
 export class DeleteCommentQuestionUseCase {
   constructor(
     private commentQuestionsRepository: QuestionCommentsRepository,
@@ -13,7 +15,7 @@ export class DeleteCommentQuestionUseCase {
   async exec({
     authorId,
     commentId,
-  }: DeleteCommentQuestionUseCaseRequest): Promise<void> {
+  }: DeleteCommentQuestionUseCaseRequest): Promise<DeleteCommentQuestionUseCaseResponse> {
     const questionComment = await this.commentQuestionsRepository.findById(commentId)
 
     if (!questionComment) {
@@ -25,5 +27,7 @@ export class DeleteCommentQuestionUseCase {
     }
 
     await this.commentQuestionsRepository.delete(questionComment)
+
+    return {}
   }
 }
