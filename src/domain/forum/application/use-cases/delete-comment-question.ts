@@ -14,16 +14,16 @@ export class DeleteCommentQuestionUseCase {
     authorId,
     commentId,
   }: DeleteCommentQuestionUseCaseRequest): Promise<void> {
-    const comment = await this.commentQuestionsRepository.findById(commentId)
+    const questionComment = await this.commentQuestionsRepository.findById(commentId)
 
-    if (!comment) {
+    if (!questionComment) {
       throw new Error('Comment not found.')
     }
 
-    if (authorId !== comment.authorId.toString()) {
+    if (authorId !== questionComment.authorId.toString()) {
       throw new Error('Not allowed.')
     }
 
-    await this.commentQuestionsRepository.delete(comment)
+    await this.commentQuestionsRepository.delete(questionComment)
   }
 }
