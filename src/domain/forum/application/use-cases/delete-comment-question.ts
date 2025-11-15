@@ -1,20 +1,20 @@
 import type { QuestionCommentsRepository } from '../repositories/question-comments-repository'
 
-interface DeleteCommentOnQuestionUseCaseRequest {
+interface DeleteCommentQuestionUseCaseRequest {
   authorId: string
   commentId: string
 }
 
-export class DeleteCommentOnQuestionUseCase {
+export class DeleteCommentQuestionUseCase {
   constructor(
-    private commentOnQuestionsRepository: QuestionCommentsRepository,
+    private commentQuestionsRepository: QuestionCommentsRepository,
   ) {}
 
   async exec({
     authorId,
     commentId,
-  }: DeleteCommentOnQuestionUseCaseRequest): Promise<void> {
-    const comment = await this.commentOnQuestionsRepository.findById(commentId)
+  }: DeleteCommentQuestionUseCaseRequest): Promise<void> {
+    const comment = await this.commentQuestionsRepository.findById(commentId)
 
     if (!comment) {
       throw new Error('Comment not found.')
@@ -24,6 +24,6 @@ export class DeleteCommentOnQuestionUseCase {
       throw new Error('Not allowed.')
     }
 
-    await this.commentOnQuestionsRepository.delete(comment)
+    await this.commentQuestionsRepository.delete(comment)
   }
 }
