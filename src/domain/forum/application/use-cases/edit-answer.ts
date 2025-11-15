@@ -17,15 +17,15 @@ export class EditAnswerUseCase {
   async exec({
     authorId,
     content,
-    answerId
+    answerId,
   }: EditAnswerUseCaseRequest): Promise<EditAnswerUseCaseResponse> {
     const answer = await this.answersRepository.findById(answerId)
- 
-    if(!answer){
+
+    if (!answer) {
       throw new Error('Answer not found')
     }
 
-    if(answer.authorId.toString() !== authorId){
+    if (answer.authorId.toString() !== authorId) {
       throw new Error('You are not allowed to edit this answer')
     }
 

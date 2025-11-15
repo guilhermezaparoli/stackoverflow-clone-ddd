@@ -25,7 +25,6 @@ export abstract class Comment<T extends CommentProps> extends Entity<T> {
     return this.props.updatedAt
   }
 
-
   private touch() {
     this.props.updatedAt = new Date()
   }
@@ -34,5 +33,4 @@ export abstract class Comment<T extends CommentProps> extends Entity<T> {
     this.props.content = content
     this.touch()
   }
-
 }

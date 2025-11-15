@@ -1,7 +1,7 @@
 export class Slug {
   public value: string
 
- private constructor(value: string) {
+  private constructor(value: string) {
     this.value = value
   }
 

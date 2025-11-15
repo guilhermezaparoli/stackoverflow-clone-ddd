@@ -1,33 +1,33 @@
-import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository';
+import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
-import { makeQuestion } from 'test/factories/make-question';
-import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository';
-import { CommentOnQuestionUsecase } from './comment-on-question';
+import { makeQuestion } from 'test/factories/make-question'
+import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
+import { CommentOnQuestionUsecase } from './comment-on-question'
 
+let questionsRepository: InMemoryQuestionsRepository
+let questionCommentsRepository: InMemoryQuestionCommentsRepository
+let sut: CommentOnQuestionUsecase
 
-let questionsRepository: InMemoryQuestionsRepository;
-let questionCommentsRepository : InMemoryQuestionCommentsRepository;
-let sut: CommentOnQuestionUsecase;
+describe('Comment on Question', () => {
+  beforeEach(() => {
+    questionsRepository = new InMemoryQuestionsRepository()
+    questionCommentsRepository = new InMemoryQuestionCommentsRepository()
+    sut = new CommentOnQuestionUsecase(
+      questionsRepository,
+      questionCommentsRepository,
+    )
+  })
+  it('should be able to comment on question', async () => {
+    const question = makeQuestion()
 
-describe("Comment on Question", () => {
+    questionsRepository.create(question)
 
-    beforeEach(() => {
-        questionsRepository = new InMemoryQuestionsRepository()
-        questionCommentsRepository = new InMemoryQuestionCommentsRepository()
-        sut = new CommentOnQuestionUsecase(questionsRepository, questionCommentsRepository)
+    await sut.exec({
+      authorId: question.authorId.toString(),
+      questionId: question.id.toString(),
+      content: 'Comentário',
     })
-    it('should be able to comment on question', async () => {
-        const question = makeQuestion()
 
-        
-        questionsRepository.create(question)
-
-       const { questionComment } = await sut.exec({
-            authorId: question.authorId.toString(),
-            questionId: question.id.toString(),
-            content: "Comentário"
-        })
-
-        expect(questionCommentsRepository.items[0]?.content).toEqual("Comentário")
-    })
+    expect(questionCommentsRepository.items[0]?.content).toEqual('Comentário')
+  })
 })

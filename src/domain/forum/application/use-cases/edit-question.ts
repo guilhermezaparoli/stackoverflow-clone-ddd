@@ -7,7 +7,7 @@ interface EditQuestionUseCaseRequest {
   title: string
   questionId: string
 }
- 
+
 interface EditQuestionUseCaseResponse {
   question: Question
 }
@@ -19,15 +19,15 @@ export class EditQuestionUseCase {
     authorId,
     content,
     title,
-    questionId
+    questionId,
   }: EditQuestionUseCaseRequest): Promise<EditQuestionUseCaseResponse> {
     const question = await this.questionsRepository.findById(questionId)
- 
-    if(!question){
+
+    if (!question) {
       throw new Error('Question not found')
     }
 
-    if(question.authorId.toString() !== authorId){
+    if (question.authorId.toString() !== authorId) {
       throw new Error('You are not allowed to edit this question')
     }
 

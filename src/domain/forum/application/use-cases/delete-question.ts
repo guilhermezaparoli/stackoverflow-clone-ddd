@@ -1,36 +1,31 @@
 import type { QuestionsRepository } from '../repositories/questions-repository'
 
 interface DeleteQuestionUseCaseRequest {
-    authorId: string
-    questionId: string
+  authorId: string
+  questionId: string
 }
 
-interface DeleteQuestionUseCaseResponse {
-
-}
+interface DeleteQuestionUseCaseResponse {}
 
 export class DeleteQuestionUseCase {
-    constructor(private questionsRepository: QuestionsRepository) { }
+  constructor(private questionsRepository: QuestionsRepository) {}
 
-    async exec({
-        authorId,
-        questionId
-    }: DeleteQuestionUseCaseRequest): Promise<DeleteQuestionUseCaseResponse> {
-        const question = await this.questionsRepository.findById(questionId)
+  async exec({
+    authorId,
+    questionId,
+  }: DeleteQuestionUseCaseRequest): Promise<DeleteQuestionUseCaseResponse> {
+    const question = await this.questionsRepository.findById(questionId)
 
-        if (!question) {
-            throw new Error("Question not found.")
-        }
-
-        if(authorId !== question.authorId.toString()) {
-            throw new Error("Not allowed.")
-        }
-
-        await this.questionsRepository.delete(question)
-
-        return {
-
-        }
-
+    if (!question) {
+      throw new Error('Question not found.')
     }
+
+    if (authorId !== question.authorId.toString()) {
+      throw new Error('Not allowed.')
+    }
+
+    await this.questionsRepository.delete(question)
+
+    return {}
+  }
 }

@@ -14,7 +14,11 @@ interface AnswerQuestionResponse {
 
 export class AnswerQuestionUseCase {
   constructor(private answersRepository: AnswersRepository) {}
-  async exec({ instructorId, questionId, content }: AnswerQuestionRequest): Promise<AnswerQuestionResponse> {
+  async exec({
+    instructorId,
+    questionId,
+    content,
+  }: AnswerQuestionRequest): Promise<AnswerQuestionResponse> {
     const answer = Answer.create({
       authorId: new UniqueEntityID(instructorId),
       content,
@@ -24,7 +28,7 @@ export class AnswerQuestionUseCase {
     await this.answersRepository.create(answer)
 
     return {
-      answer
+      answer,
     }
   }
 }
