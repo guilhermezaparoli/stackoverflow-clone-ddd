@@ -8,15 +8,14 @@ interface DeleteCommentAnswerUseCaseRequest {
 interface DeleteCommentAnswerUseCaseResponse {}
 
 export class DeleteCommentAnswerUseCase {
-  constructor(
-    private commentAnswersRepository: AnswerCommentsRepository,
-  ) {}
+  constructor(private commentAnswersRepository: AnswerCommentsRepository) {}
 
   async exec({
     authorId,
     commentId,
   }: DeleteCommentAnswerUseCaseRequest): Promise<DeleteCommentAnswerUseCaseResponse> {
-    const answerComment = await this.commentAnswersRepository.findById(commentId)
+    const answerComment =
+      await this.commentAnswersRepository.findById(commentId)
 
     if (!answerComment) {
       throw new Error('Comment not found.')
