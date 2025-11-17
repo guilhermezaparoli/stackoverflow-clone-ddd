@@ -3,6 +3,8 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository'
 import { DeleteCommentAnswerUseCase } from './delete-comment-answer'
 import { makeAnswerComment } from 'test/factories/make-answer-comment'
+import { NotAllowedError } from './errors/not-allowed-error'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 let answersCommentsRepository: InMemoryAnswerCommentsRepository
 let sut: DeleteCommentAnswerUseCase
@@ -32,12 +34,13 @@ describe('Delete comment on answer', () => {
 
     answersCommentsRepository.create(comment)
 
-    await expect(() =>
-      sut.exec({
-        authorId: 'author-2',
-        commentId: comment.id.toString(),
-      }),
-    ).rejects.instanceOf(Error)
+    const result = await sut.exec({
+      authorId: 'author-2',
+      commentId: comment.id.toString(),
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
   it("should not be able to delete a comment that doesn't exists", async () => {
     const comment = makeAnswerComment({
@@ -46,11 +49,12 @@ describe('Delete comment on answer', () => {
 
     answersCommentsRepository.create(comment)
 
-    await expect(() =>
-      sut.exec({
-        authorId: 'author-2',
-        commentId: '123',
-      }),
-    ).rejects.instanceOf(Error)
+    const result = await sut.exec({
+      authorId: 'author-2',
+      commentId: '123',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })
