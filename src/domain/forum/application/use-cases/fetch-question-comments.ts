@@ -1,14 +1,18 @@
 import type { PaginationParams } from '@/core/repositories/pagination-params'
 import type { QuestionComment } from '../../enterprise/entities/question-comment'
 import type { QuestionCommentsRepository } from '../repositories/question-comments-repository'
+import { right, type Either } from '@/core/either'
 
 interface FetchQuestionCommentsUseCaseRequest extends PaginationParams {
   questionId: string
 }
 
-interface FetchQuestionCommentsUseCaseResponse {
-  questioncomments: QuestionComment[]
-}
+type FetchQuestionCommentsUseCaseResponse = Either<
+  null,
+  {
+    questioncomments: QuestionComment[]
+  }
+>
 
 export class FetchQuestionCommentsUseCase {
   constructor(private questioncommentsRepository: QuestionCommentsRepository) {}
@@ -24,8 +28,8 @@ export class FetchQuestionCommentsUseCase {
         pageSize,
       })
 
-    return {
+    return right({
       questioncomments,
-    }
+    })
   }
 }

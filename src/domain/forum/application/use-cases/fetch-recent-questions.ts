@@ -1,12 +1,16 @@
 import { Question } from '@/domain/forum/enterprise/entities/question'
 import type { QuestionsRepository } from '../repositories/questions-repository'
 import type { PaginationParams } from '@/core/repositories/pagination-params'
+import { right, type Either } from '@/core/either'
 
 interface FetchRecentQuestionsUseCaseRequest extends PaginationParams {}
 
-interface FetchRecentQuestionsUseCaseResponse {
-  questions: Question[]
-}
+type FetchRecentQuestionsUseCaseResponse = Either<
+  null,
+  {
+    questions: Question[]
+  }
+>
 
 export class FetchRecentQuestionsUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
@@ -20,8 +24,8 @@ export class FetchRecentQuestionsUseCase {
       pageSize,
     })
 
-    return {
+    return right({
       questions,
-    }
+    })
   }
 }

@@ -1,5 +1,8 @@
 import { Answer } from '@/domain/forum/enterprise/entities/answer'
 import type { AnswersRepository } from '../repositories/answers-repository'
+import { left, right, type Either } from '@/core/either'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { NotAllowedError } from './errors/not-allowed-error'
 
 interface EditAnswerUseCaseRequest {
   authorId: string
@@ -7,9 +10,12 @@ interface EditAnswerUseCaseRequest {
   answerId: string
 }
 
-interface EditAnswerUseCaseResponse {
-  answer: Answer
-}
+type EditAnswerUseCaseResponse = Either<
+  ResourceNotFoundError | NotAllowedError,
+  {
+    answer: Answer
+  }
+>
 
 export class EditAnswerUseCase {
   constructor(private answersRepository: AnswersRepository) {}
@@ -22,19 +28,19 @@ export class EditAnswerUseCase {
     const answer = await this.answersRepository.findById(answerId)
 
     if (!answer) {
-      throw new Error('Answer not found')
+      return left(new ResourceNotFoundError())
     }
 
     if (answer.authorId.toString() !== authorId) {
-      throw new Error('You are not allowed to edit this answer')
+      return left(new NotAllowedError())
     }
 
     answer.content = content
 
     await this.answersRepository.save(answer)
 
-    return {
+    return right({
       answer,
-    }
+    })
   }
 }
