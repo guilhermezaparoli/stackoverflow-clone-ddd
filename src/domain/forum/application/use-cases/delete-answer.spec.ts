@@ -2,6 +2,7 @@ import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-r
 import { DeleteAnswerUseCase } from './delete-answer'
 import { makeAnswer } from 'test/factories/make-answer'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { NotAllowedError } from './errors/not-allowed-error'
 
 let answersRepository: InMemoryAnswersRepository
 let sut: DeleteAnswerUseCase
@@ -21,12 +22,12 @@ describe('Delete answer', () => {
 
     await answersRepository.create(newAnswer)
 
-    await sut.exec({
+    const result = await sut.exec({
       authorId: 'author-1',
       answerId: 'answer-1',
     })
-
-    console.log(answersRepository.items, 'aquuiii')
+    
+    expect(result.isRight()).toBe(true)
     expect(answersRepository.items).length(0)
   })
   it('should not be able to delete a answer from another user', async () => {
@@ -39,11 +40,12 @@ describe('Delete answer', () => {
 
     await answersRepository.create(newanswer)
 
-    expect(() =>
-      sut.exec({
+    const result = await sut.exec({
         authorId: 'author-2',
         answerId: 'answer-1',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+      })
+      
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })
