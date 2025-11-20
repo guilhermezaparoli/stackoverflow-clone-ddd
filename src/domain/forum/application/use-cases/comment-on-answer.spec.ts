@@ -21,7 +21,7 @@ describe('Comment on Answer', () => {
 
     answersRepository.create(answer)
 
- const result =   await sut.exec({
+    const result = await sut.exec({
       authorId: answer.authorId.toString(),
       answerId: answer.id.toString(),
       content: 'Comentário',

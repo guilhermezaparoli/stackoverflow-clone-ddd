@@ -26,18 +26,18 @@ export class CreateQuestionUseCase {
     authorId,
     content,
     title,
-    attachmentsIds
+    attachmentsIds,
   }: CreateQuestionUseCaseRequest): Promise<CreateQuestionUseCaseResponse> {
     const question = Question.create({
       authorId: new UniqueEntityID(authorId),
       content,
       title,
     })
-    
+
     const attachments = attachmentsIds.map((id) => {
       return QuestionAttachment.create({
         attachmentId: new UniqueEntityID(id),
-        questionId: question.id
+        questionId: question.id,
       })
     })
 

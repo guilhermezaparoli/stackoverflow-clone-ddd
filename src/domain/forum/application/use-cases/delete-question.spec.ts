@@ -23,7 +23,7 @@ describe('Delete question', () => {
 
     await questionsRepository.create(newQuestion)
 
-   const result = await sut.exec({
+    const result = await sut.exec({
       authorId: 'author-1',
       questionId: 'question-1',
     })
@@ -42,11 +42,11 @@ describe('Delete question', () => {
     await questionsRepository.create(newQuestion)
 
     const result = await sut.exec({
-        authorId: 'author-2',
-        questionId: 'question-1',
-      })
+      authorId: 'author-2',
+      questionId: 'question-1',
+    })
 
-      expect(result.isLeft()).toBe(true)
-      expect(result.value).toBeInstanceOf(NotAllowedError)
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })

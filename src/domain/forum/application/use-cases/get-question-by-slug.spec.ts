@@ -21,7 +21,7 @@ describe('Get question by slug', () => {
     const result = await sut.exec({
       slug: 'example-question',
     })
-    
+
     expect(result.isRight()).toBe(true)
     if (result.isRight()) {
       expect(result.value.question.id).toBeTruthy()

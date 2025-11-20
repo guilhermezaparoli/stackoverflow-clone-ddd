@@ -20,7 +20,7 @@ describe('Delete comment on question', () => {
 
     questionsCommentsRepository.create(comment)
 
-   const result =  await sut.exec({
+    const result = await sut.exec({
       authorId: 'author-1',
       commentId: comment.id.toString(),
     })
@@ -36,14 +36,13 @@ describe('Delete comment on question', () => {
     questionsCommentsRepository.create(comment)
 
     const result = await sut.exec({
-        authorId: 'author-2',
-        commentId: comment.id.toString(),
-      })
-
-      expect(result.isLeft()).toBe(true)
-      expect(result.value).toBeInstanceOf(NotAllowedError)
-    
+      authorId: 'author-2',
+      commentId: comment.id.toString(),
     })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
+  })
   it("should not be able to delete a comment that doesn't exists", async () => {
     const comment = makeQuestionComment({
       authorId: new UniqueEntityID('author-1'),
@@ -52,10 +51,10 @@ describe('Delete comment on question', () => {
     questionsCommentsRepository.create(comment)
 
     const result = await sut.exec({
-        authorId: 'author-2',
-        commentId: '123',
-      })
-   expect(result.isLeft()).toBe(true)
-   expect(result.value).toBeInstanceOf(ResourceNotFoundError)
+      authorId: 'author-2',
+      commentId: '123',
+    })
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

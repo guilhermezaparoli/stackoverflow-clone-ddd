@@ -15,21 +15,23 @@ describe('Create Question', () => {
       authorId: '1',
       content: '1',
       title: '1',
-      attachmentsIds: ['1', '2']
+      attachmentsIds: ['1', '2'],
     })
 
     expect(result.isRight()).toBe(true)
     expect(result.value?.question.id).toBeTruthy()
     expect(questionsRepository.items).length(1)
     expect(questionsRepository.items[0]).toEqual(result.value?.question)
-    expect(questionsRepository.items[0]?.attachments.currentItems).toHaveLength(2)
+    expect(questionsRepository.items[0]?.attachments.currentItems).toHaveLength(
+      2,
+    )
     expect(questionsRepository.items[0]?.attachments.currentItems).toEqual([
       expect.objectContaining({
-        attachmentId: new UniqueEntityID('1')
+        attachmentId: new UniqueEntityID('1'),
       }),
       expect.objectContaining({
-        attachmentId: new UniqueEntityID('2')
-      })
+        attachmentId: new UniqueEntityID('2'),
+      }),
     ])
   })
 })

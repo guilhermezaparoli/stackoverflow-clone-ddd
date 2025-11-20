@@ -41,12 +41,12 @@ describe('Edit Answer', () => {
     answersRepository.create(createdAnswer)
 
     const result = await sut.exec({
-        authorId: 'author-2',
-        content: 'New content',
-        answerId: createdAnswer.id.toString(),
-      })
+      authorId: 'author-2',
+      content: 'New content',
+      answerId: createdAnswer.id.toString(),
+    })
 
-      expect(result.isLeft()).toBe(true)
-      expect(result.value).toBeInstanceOf(NotAllowedError)
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })

@@ -26,7 +26,7 @@ describe('Delete answer', () => {
       authorId: 'author-1',
       answerId: 'answer-1',
     })
-    
+
     expect(result.isRight()).toBe(true)
     expect(answersRepository.items).length(0)
   })
@@ -41,10 +41,10 @@ describe('Delete answer', () => {
     await answersRepository.create(newanswer)
 
     const result = await sut.exec({
-        authorId: 'author-2',
-        answerId: 'answer-1',
-      })
-      
+      authorId: 'author-2',
+      answerId: 'answer-1',
+    })
+
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(NotAllowedError)
   })

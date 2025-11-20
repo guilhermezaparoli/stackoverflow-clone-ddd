@@ -79,7 +79,7 @@ export class Question extends AggregateRoot<QuestionProps> {
     this.touch()
   }
 
-  set attachments(attachments: QuestionAttachmentList){
+  set attachments(attachments: QuestionAttachmentList) {
     this.props.attachments = attachments
   }
 
@@ -92,7 +92,7 @@ export class Question extends AggregateRoot<QuestionProps> {
         ...props,
         createdAt: props.createdAt ?? new Date(),
         slug: props.slug ?? Slug.createFromText(props.title),
-        attachments: props.attachments ?? new QuestionAttachmentList()
+        attachments: props.attachments ?? new QuestionAttachmentList(),
       },
       id,
     )
