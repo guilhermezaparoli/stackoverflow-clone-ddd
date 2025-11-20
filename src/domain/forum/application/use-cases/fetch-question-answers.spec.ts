@@ -28,12 +28,13 @@ describe('Fetch Question Answers', () => {
       }),
     )
 
-    const { answers } = await sut.exec({
+    const result = await sut.exec({
       page: 1,
       questionId: 'question-1',
     })
 
-    expect(answers.length).toEqual(3)
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.answers.length).toEqual(3)
   })
   it('should not be able to fetch question answers from another question', async () => {
     await answersRepository.create(
@@ -52,12 +53,12 @@ describe('Fetch Question Answers', () => {
       }),
     )
 
-    const { answers } = await sut.exec({
+    const result = await sut.exec({
       page: 1,
       questionId: 'question-1',
     })
 
-    expect(answers.length).toEqual(0)
+    expect(result.value?.answers.length).toEqual(0)
   })
   it('should be able to fetch paginated question answers', async () => {
     for (let i = 1; i <= 22; i++) {
@@ -68,12 +69,13 @@ describe('Fetch Question Answers', () => {
       )
     }
 
-    const { answers } = await sut.exec({
+    const result = await sut.exec({
       page: 2,
       pageSize: 20,
       questionId: 'question-2',
     })
 
-    expect(answers.length).toEqual(2)
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.answers.length).toEqual(2)
   })
 })

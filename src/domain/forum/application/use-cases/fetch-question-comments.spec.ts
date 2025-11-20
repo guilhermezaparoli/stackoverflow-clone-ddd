@@ -28,12 +28,13 @@ describe('Fetch Question Question Comments', () => {
       }),
     )
 
-    const { questioncomments } = await sut.exec({
+    const result = await sut.exec({
       page: 1,
       questionId: 'question-1',
     })
 
-    expect(questioncomments.length).toEqual(3)
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.questioncomments.length).toEqual(3)
   })
   it('should not be able to fetch question question comments from another question', async () => {
     await questioncommentsRepository.create(
@@ -52,12 +53,12 @@ describe('Fetch Question Question Comments', () => {
       }),
     )
 
-    const { questioncomments } = await sut.exec({
+    const result = await sut.exec({
       page: 1,
       questionId: 'question-1',
     })
 
-    expect(questioncomments.length).toEqual(0)
+    expect(result.value?.questioncomments.length).toEqual(0)
   })
   it('should be able to fetch paginated question question comments', async () => {
     for (let i = 1; i <= 22; i++) {
@@ -68,12 +69,12 @@ describe('Fetch Question Question Comments', () => {
       )
     }
 
-    const { questioncomments } = await sut.exec({
+    const result = await sut.exec({
       page: 2,
       pageSize: 20,
       questionId: 'question-2',
     })
 
-    expect(questioncomments.length).toEqual(2)
+    expect(result.value?.questioncomments.length).toEqual(2)
   })
 })

@@ -27,12 +27,13 @@ describe('Fetch recent questions', () => {
       }),
     )
 
-    const { questions } = await sut.exec({
+    const result = await sut.exec({
       page: 1,
     })
 
-    expect(questions.length).toEqual(3)
-    expect(questions).toEqual([
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.questions.length).toEqual(3)
+    expect(result.value?.questions).toEqual([
       expect.objectContaining({
         createdAt: new Date(2022, 0, 23),
       }),
@@ -53,12 +54,13 @@ describe('Fetch recent questions', () => {
       )
     }
 
-    const { questions } = await sut.exec({
+    const result = await sut.exec({
       page: 2,
     })
 
-    expect(questions).toHaveLength(2)
-    expect(questions).toEqual([
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.questions).toHaveLength(2)
+    expect(result.value?.questions).toEqual([
       expect.objectContaining({
         createdAt: new Date(2022, 0, 2),
       }),

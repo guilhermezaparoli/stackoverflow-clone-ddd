@@ -28,14 +28,15 @@ describe('Fetch Answer Answer Comments', () => {
       }),
     )
 
-    const { answerComments } = await sut.exec({
+    const result = await sut.exec({
       page: 1,
       answerId: 'answer-1',
     })
 
-    expect(answerComments.length).toEqual(3)
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.answerComments.length).toEqual(3)
   })
-  it('should not be able to fetch answer answer comments from another answer', async () => {
+  it('should not be able to fetch answer comments from another answer', async () => {
     await answerCommentsRepository.create(
       makeAnswerComment({
         answerId: new UniqueEntityID('answer-2'),
@@ -52,12 +53,12 @@ describe('Fetch Answer Answer Comments', () => {
       }),
     )
 
-    const { answerComments } = await sut.exec({
+    const result = await sut.exec({
       page: 1,
       answerId: 'answer-1',
     })
 
-    expect(answerComments.length).toEqual(0)
+    expect(result.value?.answerComments.length).toEqual(0)
   })
   it('should be able to fetch paginated answer answer comments', async () => {
     for (let i = 1; i <= 22; i++) {
@@ -68,12 +69,13 @@ describe('Fetch Answer Answer Comments', () => {
       )
     }
 
-    const { answerComments } = await sut.exec({
+    const result = await sut.exec({
       page: 2,
       pageSize: 20,
       answerId: 'answer-2',
     })
 
-    expect(answerComments.length).toEqual(2)
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.answerComments.length).toEqual(2)
   })
 })
