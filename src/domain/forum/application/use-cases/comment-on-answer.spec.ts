@@ -21,12 +21,13 @@ describe('Comment on Answer', () => {
 
     answersRepository.create(answer)
 
-    await sut.exec({
+ const result =   await sut.exec({
       authorId: answer.authorId.toString(),
       answerId: answer.id.toString(),
       content: 'Comentário',
     })
 
+    expect(result.isRight()).toBe(true)
     expect(answerCommentsRepository.items[0]?.content).toEqual('Comentário')
   })
 })
