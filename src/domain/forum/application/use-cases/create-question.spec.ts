@@ -10,14 +10,15 @@ describe('Create Question', () => {
     sut = new CreateQuestionUseCase(questionsRepository)
   })
   it('should be able to create a question', async () => {
-    const { question } = await sut.exec({
+    const result = await sut.exec({
       authorId: '1',
       content: '1',
       title: '1',
     })
 
-    expect(question.id).toBeTruthy()
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.question.id).toBeTruthy()
     expect(questionsRepository.items).length(1)
-    expect(questionsRepository.items[0]?.id).toEqual(question.id)
+    expect(questionsRepository.items[0]?.id).toEqual(result.value?.question.id)
   })
 })
