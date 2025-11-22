@@ -14,9 +14,11 @@ describe('Create Question', () => {
       content: '1',
       instructorId: '1',
       questionId: '1',
+      attachmentsIds: ['1', '2'],
     })
 
     expect(result.isRight()).toBe(true)
     expect(answersRepository.items[0]).toEqual(result.value?.answer)
+    expect(result.value?.answer.attachments.currentItems).toHaveLength(2)
   })
 })
