@@ -2,9 +2,13 @@ import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import type { PaginationParams } from "@/core/repositories/pagination-params";
 import type { QuestionsRepository } from "@/domain/forum/application/repositories/questions-repository";
 import type { Question } from "@/domain/forum/enterprise/entities/question";
+import type { InMemoryQuestionAttachmentsRepository } from "./in-memory-question-attachments-repository";
 
 export class InMemoryQuestionsRepository implements QuestionsRepository {
     public items: Question[] = []
+
+    constructor(private questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository) {}
+
     async create(question: Question): Promise<void> {
         this.items.push(question)
     }
@@ -19,8 +23,10 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
     
     async delete(question: Question): Promise<void> {
         const itemIndex = this.items.findIndex((item) => item.id === question.id)
-       
         this.items.splice(itemIndex, 1)
+
+        this.questionAttachmentsRepository.deleteManyByQuestionId(question.id.toString()) 
+        
     }
     
     async findBySlug(slug: string): Promise<Question | null> {
