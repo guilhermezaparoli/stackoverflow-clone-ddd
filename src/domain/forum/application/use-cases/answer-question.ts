@@ -28,8 +28,8 @@ export class AnswerQuestionUseCase {
     attachmentsIds,
   }: AnswerQuestionRequest): Promise<AnswerQuestionResponse> {
     const answer = Answer.create({
-      authorId: new UniqueEntityID(instructorId),
       content,
+      authorId: new UniqueEntityID(instructorId),
       questionId: new UniqueEntityID(questionId),
     })
 
