@@ -1,13 +1,12 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import type { PaginationParams } from "@/core/repositories/pagination-params";
+import type { QuestionAttachmentsRepository } from "@/domain/forum/application/repositories/question-attachments-repository";
 import type { QuestionsRepository } from "@/domain/forum/application/repositories/questions-repository";
 import type { Question } from "@/domain/forum/enterprise/entities/question";
-import type { InMemoryQuestionAttachmentsRepository } from "./in-memory-question-attachments-repository";
 
 export class InMemoryQuestionsRepository implements QuestionsRepository {
     public items: Question[] = []
 
-    constructor(private questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository) {}
+    constructor(private questionAttachmentsRepository: QuestionAttachmentsRepository) {}
 
     async create(question: Question): Promise<void> {
         this.items.push(question)
