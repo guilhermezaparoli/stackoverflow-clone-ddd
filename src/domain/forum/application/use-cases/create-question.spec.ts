@@ -10,7 +10,9 @@ let sut: CreateQuestionUseCase
 describe('Create Question', () => {
   beforeEach(() => {
     questionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
-    questionsRepository = new InMemoryQuestionsRepository(questionAttachmentsRepository)
+    questionsRepository = new InMemoryQuestionsRepository(
+      questionAttachmentsRepository,
+    )
     sut = new CreateQuestionUseCase(questionsRepository)
   })
   it('should be able to create a question', async () => {
