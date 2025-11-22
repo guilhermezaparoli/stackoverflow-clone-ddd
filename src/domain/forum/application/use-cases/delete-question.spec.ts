@@ -14,7 +14,9 @@ let sut: DeleteQuestionUseCase
 describe('Delete question', () => {
   beforeEach(() => {
     questionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
-    questionsRepository = new InMemoryQuestionsRepository(questionAttachmentsRepository)
+    questionsRepository = new InMemoryQuestionsRepository(
+      questionAttachmentsRepository,
+    )
     sut = new DeleteQuestionUseCase(questionsRepository)
   })
   it('should be able to delete a question', async () => {
@@ -27,15 +29,14 @@ describe('Delete question', () => {
 
     await questionsRepository.create(newQuestion)
 
-
     questionAttachmentsRepository.items.push(
       makeQuestionAttachment({
         questionId: newQuestion.id,
-        attachmentId: new UniqueEntityID('1')
+        attachmentId: new UniqueEntityID('1'),
       }),
       makeQuestionAttachment({
         questionId: newQuestion.id,
-        attachmentId: new UniqueEntityID('1')
+        attachmentId: new UniqueEntityID('1'),
       }),
     )
 
