@@ -13,7 +13,7 @@ let sut: DeleteAnswerUseCase
 describe('Delete answer', () => {
   beforeEach(() => {
     asnwerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository()
-    answersRepository = new InMemoryAnswersRepository()
+    answersRepository = new InMemoryAnswersRepository(asnwerAttachmentsRepository)
     sut = new DeleteAnswerUseCase(answersRepository, asnwerAttachmentsRepository)
   })
   it('should be able to delete a answer', async () => {

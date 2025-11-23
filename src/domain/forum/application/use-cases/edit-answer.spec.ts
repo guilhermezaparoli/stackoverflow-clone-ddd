@@ -13,9 +13,11 @@ let sut: EditAnswerUseCase
 describe('Edit Answer', () => {
   beforeEach(() => {
     answerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository()
-    answersRepository = new InMemoryAnswersRepository()
+    answersRepository = new InMemoryAnswersRepository(answerAttachmentsRepository)
+
     sut = new EditAnswerUseCase(answersRepository, answerAttachmentsRepository)
   })
+
   it('should be able to edit a answer', async () => {
     const createdAnswer = makeAnswer(
       {
@@ -60,6 +62,7 @@ describe('Edit Answer', () => {
       }),
     ])
   })
+
   it('should not be able to edit a answer from another author', async () => {
     const createdAnswer = makeAnswer({
       authorId: new UniqueEntityID('author-1'),
