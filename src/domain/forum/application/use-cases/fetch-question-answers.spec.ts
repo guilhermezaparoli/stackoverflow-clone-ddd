@@ -11,7 +11,9 @@ let sut: FetchQuestionAnswersUseCase
 describe('Fetch Question Answers', () => {
   beforeEach(() => {
     answerAttachmentRepository = new InMemoryAnswerAttachmentsRepository()
-    answersRepository = new InMemoryAnswersRepository(answerAttachmentRepository)
+    answersRepository = new InMemoryAnswersRepository(
+      answerAttachmentRepository,
+    )
     sut = new FetchQuestionAnswersUseCase(answersRepository)
   })
   it('should be able to fetch question answers', async () => {

@@ -13,8 +13,13 @@ let sut: DeleteAnswerUseCase
 describe('Delete answer', () => {
   beforeEach(() => {
     asnwerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository()
-    answersRepository = new InMemoryAnswersRepository(asnwerAttachmentsRepository)
-    sut = new DeleteAnswerUseCase(answersRepository, asnwerAttachmentsRepository)
+    answersRepository = new InMemoryAnswersRepository(
+      asnwerAttachmentsRepository,
+    )
+    sut = new DeleteAnswerUseCase(
+      answersRepository,
+      asnwerAttachmentsRepository,
+    )
   })
   it('should be able to delete a answer', async () => {
     const newAnswer = makeAnswer(
@@ -25,18 +30,14 @@ describe('Delete answer', () => {
     )
 
     asnwerAttachmentsRepository.items.push(
-      makeAnswerAttachment(
-        {
-          answerId: newAnswer.id,
-          attachmentId: new UniqueEntityID('1')
-        },
-      ),
-      makeAnswerAttachment(
-        {
-          answerId: newAnswer.id,
-          attachmentId: new UniqueEntityID('2')
-        },
-      )
+      makeAnswerAttachment({
+        answerId: newAnswer.id,
+        attachmentId: new UniqueEntityID('1'),
+      }),
+      makeAnswerAttachment({
+        answerId: newAnswer.id,
+        attachmentId: new UniqueEntityID('2'),
+      }),
     )
 
     await answersRepository.create(newAnswer)

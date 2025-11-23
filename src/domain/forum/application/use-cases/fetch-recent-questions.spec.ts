@@ -10,7 +10,9 @@ let sut: FetchRecentQuestionsUseCase
 describe('Fetch recent questions', () => {
   beforeEach(() => {
     questionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
-    questionsRepository = new InMemoryQuestionsRepository(questionAttachmentsRepository)
+    questionsRepository = new InMemoryQuestionsRepository(
+      questionAttachmentsRepository,
+    )
     sut = new FetchRecentQuestionsUseCase(questionsRepository)
   })
   it('should be able to fetch recent questions', async () => {

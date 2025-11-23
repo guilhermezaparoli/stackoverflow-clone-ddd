@@ -12,7 +12,9 @@ let sut: CommentOnAnswerUsecase
 describe('Comment on Answer', () => {
   beforeEach(() => {
     answerAttachmentRepository = new InMemoryAnswerAttachmentsRepository()
-    answersRepository = new InMemoryAnswersRepository(answerAttachmentRepository)
+    answersRepository = new InMemoryAnswersRepository(
+      answerAttachmentRepository,
+    )
     answerCommentsRepository = new InMemoryAnswerCommentsRepository()
     sut = new CommentOnAnswerUsecase(
       answersRepository,
