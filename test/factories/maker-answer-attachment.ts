@@ -1,7 +1,7 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { AnswerAttachment } from "@/domain/forum/enterprise/entities/answer-attachment";
+import { AnswerAttachment, type AnswerAttachmentProps } from "@/domain/forum/enterprise/entities/answer-attachment";
 
-export function makeAnswerAttachment(override: Partial<AnswerAttachment> = {}, id?: UniqueEntityID) {
+export function makeAnswerAttachment(override: Partial<AnswerAttachmentProps> = {}, id?: UniqueEntityID) {
     return AnswerAttachment.create({
         answerId: new UniqueEntityID(),
         attachmentId: new UniqueEntityID(),
