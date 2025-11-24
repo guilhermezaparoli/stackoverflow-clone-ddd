@@ -4,11 +4,8 @@ import { faker } from "@faker-js/faker";
 
 export function makeNotification(override: Partial<NotificationProps> = {}, id?: UniqueEntityID) {
     return Notification.create({
-        title: faker.lorem.sentence({
-            min: 3,
-            max: 5
-        }),
-        content: faker.lorem.text(),
+        title: faker.lorem.sentence(4),
+        content: faker.lorem.sentence(10),
         recipientId: new UniqueEntityID(),
         ...override
     }, id)
