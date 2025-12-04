@@ -21,38 +21,37 @@ describe('Send notification Use Case', () => {
     notificationsRepository.create(notification)
 
     const result = await sut.exec({
-     notificationid: notification.id.toString(),
-     recipientId: notification.recipientId.toString()
+      notificationid: notification.id.toString(),
+      recipientId: notification.recipientId.toString(),
     })
 
     expect(result.isRight()).toBe(true)
     expect(notificationsRepository.items[0]?.readAt).toEqual(expect.any(Date))
-})
+  })
 
   it('should not be able to read a notification from another user', async () => {
     const notification = makeNotification({
-        recipientId: new UniqueEntityID('123')
+      recipientId: new UniqueEntityID('123'),
     })
 
     notificationsRepository.create(notification)
 
     const result = await sut.exec({
-     notificationid: notification.id.toString(),
-     recipientId: '456'
+      notificationid: notification.id.toString(),
+      recipientId: '456',
     })
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(NotAllowedError)
-})
+  })
 
   it('should return an error when tried to read an inexisted notification', async () => {
-
     const result = await sut.exec({
-     notificationid: '123',
-     recipientId: '123'
+      notificationid: '123',
+      recipientId: '123',
     })
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)
-})
+  })
 })

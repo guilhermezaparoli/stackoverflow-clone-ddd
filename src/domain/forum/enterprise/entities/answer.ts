@@ -71,7 +71,7 @@ export class Answer extends AggregateRoot<AnswerProps> {
 
     const isNewAnswer = !id
 
-    if(isNewAnswer){
+    if (isNewAnswer) {
       answer.addDomainEvent(new AnswerCreatedEvent(answer))
     }
 

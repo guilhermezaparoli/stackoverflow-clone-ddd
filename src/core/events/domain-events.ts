@@ -2,7 +2,6 @@ import { AggregateRoot } from '../entities/aggregate-root'
 import { UniqueEntityID } from '../entities/unique-entity-id'
 import type { DomainEvent } from './domain-event'
 
-
 type DomainEventCallback = (event: any) => void
 
 export class DomainEvents {
@@ -52,13 +51,12 @@ export class DomainEvents {
     const wasEventRegisteredBefore = eventClassName in this.handlersMap
 
     if (!wasEventRegisteredBefore) {
-       this.handlersMap[eventClassName] = []
+      this.handlersMap[eventClassName] = []
     }
 
-    if(this.handlersMap[eventClassName]){
+    if (this.handlersMap[eventClassName]) {
       this.handlersMap[eventClassName].push(callback)
     }
-
   }
 
   public static clearHandlers() {
@@ -77,11 +75,11 @@ export class DomainEvents {
     if (isEventRegistered) {
       const handlers = this.handlersMap[eventClassName]
 
-      if(handlers){
+      if (handlers) {
         for (const handler of handlers) {
           handler(event)
         }
       }
-      }
+    }
   }
 }
